@@ -5,18 +5,12 @@ def get_user_input(prompt):
     return input(prompt + " (leave blank to skip): ").strip()
 
 category = get_user_input("Enter category (e.g., Mountain):")
-group = get_user_input("Enter group (e.g., Bikes):")
-gender = get_user_input("Enter gender (e.g., Male):")
 product_family = get_user_input("Enter product family (e.g., Rockhopper):")
 
 URL = "https://www.specialized.com/ca/en/c/bikes?"
 i = 1
 if category:
     URL += f"categoryproperty={category}&"
-if group:
-    URL += f"group={group}&"
-if gender:
-    URL += f"gender={gender}&"
 if product_family:
     URL += f"productfamily={product_family}&"
 base_url = URL
