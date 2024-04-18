@@ -11,21 +11,24 @@ category = get_user_input("Enter category (e.g., Mountain):")
 platform = get_user_input("Enter platform (e.g., Habit):")
 
 URL = "https://www.cannondale.com/en-ca/bikes"
+
+if category or platform:
+    URL += "?activeSortKey=platform%20asc&activeFilters="
 if category:
-    URL += f"activeFilters=category~{category}|"
+    URL += f"category~{category}"
+if category and platform:
+    URL += "|"
 if platform:
     URL += f"platform~{platform}"
 
 print(f"\nSearching at {URL}\n")
 
-# Set up Selenium WebDriver
 options = webdriver.ChromeOptions()
-options.add_argument('--headless')  # Run Chrome in headless mode
+options.add_argument('--headless')
 driver = webdriver.Chrome(options=options)
 
 try:
     driver.get(URL)
-    # Wait for products to load
     WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.CLASS_NAME, "product-details"))
     )
@@ -35,8 +38,6 @@ except Exception as e:
 finally:
     driver.quit()
 
-
-# Now you can use BeautifulSoup to parse the fully rendered page source
 product_cards = soup.find_all(class_="product-details")
 if product_cards:
     for product_card in product_cards:
